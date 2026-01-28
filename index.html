@@ -349,18 +349,85 @@
   to{ transform:translateY(-120vh) rotate(360deg); opacity:0 }
 }
 
+
+/* ===== 14 Feb Header upgrade ===== */
+header{
+  /* keep sticky/backdrop from base; add a subtle gradient edge */
+  box-shadow: 0 10px 30px rgba(122,30,44,.06);
+}
+.topbar{
+  position:relative;
+  overflow:hidden;
+}
+.hero-decor{
+  position:absolute;
+  inset:-40px -20px auto -20px;
+  height:180px;
+  pointer-events:none;
+  background:
+    radial-gradient(220px 160px at 8% 35%, rgba(207,95,112,.26), transparent 65%),
+    radial-gradient(260px 170px at 92% 25%, rgba(122,30,44,.18), transparent 70%),
+    radial-gradient(380px 240px at 52% 0%, rgba(255,255,255,.55), transparent 60%);
+  filter: blur(0px);
+  opacity:1;
+}
+/* small sparkle hearts near the title */
+.title:after{
+  content:"  ❤";
+  color: rgba(122,30,44,.55);
+  font-weight: 900;
+  font-size: .95em;
+  letter-spacing: 0;
+}
+.sub{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.sub:before{
+  content:"✨";
+  opacity:.75;
+}
+
+/* ===== Floating hearts: more, smoother ===== */
+.hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.hearts span{
+  position:absolute;
+  bottom:-50px;
+  font-size:20px;
+  opacity:.14;
+  color:#7A1E2C;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.08));
+  animation-name: floatUp;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+.hearts span.soft{ opacity:.10; }
+.hearts span.strong{ opacity:.20; }
+
+@keyframes floatUp{
+  from{ transform:translateY(0) translateX(0) rotate(0deg); opacity:0 }
+  8%{opacity: var(--o, .16)}
+  55%{opacity: var(--o, .16)}
+  to{ transform:translateY(-130vh) translateX(var(--x, 0px)) rotate(420deg); opacity:0 }
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="hearts">
-  <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
-  <span>❤</span><span>❤</span><span>❤</span>
-</div>
-
-  <header>
+<div class="hearts" id="heartsLayer"></div>
+<header>
     <div class="topbar">
+      <div class="hero-decor" aria-hidden="true"></div>
       <div class="brandline">
         <div class="kicker">Коллекция • 14 февраля</div>
         <div id="timer" class="timer"></div>
@@ -496,6 +563,39 @@ function formatPrice(n){ return n.toLocaleString('ru-RU') + ' ₽'; }
   const t = document.getElementById('timer');
   if (t && !t.textContent) t.style.opacity = .0;
 })();
+
+
+/* ====== Floating hearts generator ====== */
+(function(){
+  const layer = document.getElementById('heartsLayer');
+  if(!layer) return;
+  const count = 26; // more hearts
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  const seed = Math.floor(Math.random()*1e9);
+  function rnd(n){ // deterministic-ish
+    const x = Math.sin((seed + n) * 999) * 10000;
+    return x - Math.floor(x);
+  }
+  for(let i=0;i<count;i++){
+    const s = document.createElement('span');
+    s.textContent = '❤';
+    const left = Math.floor(rnd(i)*100);
+    const size = 14 + Math.floor(rnd(i+7)*24); // 14..38
+    const dur  = 14 + Math.floor(rnd(i+21)*18); // 14..31s
+    const delay= -Math.floor(rnd(i+99)*dur);   // negative -> already in motion
+    const drift= Math.floor((rnd(i+33)-0.5) * 120); // -60..60px
+    const cls  = rnd(i+55) > 0.7 ? 'strong' : (rnd(i+55) < 0.25 ? 'soft' : '');
+    s.className = cls;
+    s.style.left = left + '%';
+    s.style.fontSize = size + 'px';
+    s.style.animationDuration = dur + 's';
+    s.style.animationDelay = delay + 's';
+    s.style.setProperty('--x', drift + 'px');
+    s.style.setProperty('--o', (cls==='strong'?0.20:(cls==='soft'?0.10:0.14)));
+    layer.appendChild(s);
+  }
+})();
+
 
 /* ====== Яндекс: проверка адреса ====== */
 let addressValid = false;
