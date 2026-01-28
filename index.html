@@ -317,10 +317,48 @@
       padding: 30px 0 44px;
       font-weight: 700;
     }
-  </style>
+  
+/* Floating hearts for 14 Feb */
+.hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.hearts span{
+  position:absolute;
+  bottom:-40px;
+  font-size:22px;
+  opacity:.18;
+  color:#7A1E2C;
+  animation: floatUp 18s linear infinite;
+}
+.hearts span:nth-child(1){left:5%; animation-duration:16s; font-size:18px}
+.hearts span:nth-child(2){left:15%; animation-duration:22s; font-size:26px}
+.hearts span:nth-child(3){left:28%; animation-duration:19s; font-size:20px}
+.hearts span:nth-child(4){left:40%; animation-duration:25s; font-size:30px}
+.hearts span:nth-child(5){left:52%; animation-duration:17s; font-size:22px}
+.hearts span:nth-child(6){left:65%; animation-duration:23s; font-size:28px}
+.hearts span:nth-child(7){left:78%; animation-duration:18s; font-size:20px}
+.hearts span:nth-child(8){left:90%; animation-duration:26s; font-size:32px}
+
+@keyframes floatUp{
+  from{ transform:translateY(0) rotate(0deg); opacity:0 }
+  10%{opacity:.22}
+  to{ transform:translateY(-120vh) rotate(360deg); opacity:0 }
+}
+
+</style>
 </head>
 
 <body>
+
+<div class="hearts">
+  <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
+  <span>❤</span><span>❤</span><span>❤</span>
+</div>
+
   <header>
     <div class="topbar">
       <div class="brandline">
