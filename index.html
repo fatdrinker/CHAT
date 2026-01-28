@@ -349,7 +349,11 @@
 .hearts span:nth-child(8){left:90%; animation-duration:26s; font-size:32px}
 
 @keyframes floatUp{
-  from{ transform:translateY(0) rotate(0deg); opacity:0 }
+  from{ transform:translateY(0) translateX(0); opacity:0 }
+  8%{opacity: var(--o, .16)}
+  55%{opacity: var(--o, .16)}
+  to{ transform:translateY(-130vh) translateX(var(--x, 0px)); opacity:0 }
+}
   10%{opacity:.22}
   to{ transform:translateY(-120vh) rotate(360deg); opacity:0 }
 }
@@ -492,11 +496,21 @@ header{
 .hearts span.strong{ opacity:.20; }
 
 @keyframes floatUp{
-  from{ transform:translateY(0) translateX(0) rotate(0deg); opacity:0 }
+  from{ transform:translateY(0) translateX(0); opacity:0 }
+  8%{opacity: var(--o, .16)}
+  55%{opacity: var(--o, .16)}
+  to{ transform:translateY(-130vh) translateX(var(--x, 0px)); opacity:0 }
+}
   8%{opacity: var(--o, .16)}
   55%{opacity: var(--o, .16)}
   to{ transform:translateY(-130vh) translateX(var(--x, 0px)) rotate(420deg); opacity:0 }
 }
+
+
+/* Special badges for first 3 bouquets */
+.badge.hit{ background: rgba(214,91,123,.92); color:#fff; border:none; }
+.badge.leader{ background: rgba(184,166,255,.92); color:#fff; border:none; }
+.badge.recommend{ background: rgba(242,178,163,.92); color:#fff; border:none; }
 
 </style>
 </head>
@@ -846,14 +860,17 @@ function renderCatalog(){
   });
 
   grid.innerHTML = '';
-  list.forEach(p=>{
+  list.forEach((p,index)=>{
     const qty = cart[p.id]||0;
     const el = document.createElement('div');
     el.className = 'card';
     el.innerHTML = `
       <div class="imgbox">
         <img src="./images/${p.img}" alt="" loading="lazy">
-        <div class="badge">14 февраля</div>
+        ${index===0 ? '<div class="badge hit">Хит</div>' :
+          index===1 ? '<div class="badge leader">Лидер продаж</div>' :
+          index===2 ? '<div class="badge recommend">Рекомендуем</div>' :
+          '<div class="badge">14 февраля</div>'}
       </div>
       <div class="info">
         <div class="pTitle">${p.title}</div>
