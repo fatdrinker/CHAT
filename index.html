@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Коллекция к 1 сентября</title>
+  <title>Коллекция к 14 февраля</title>
 
   <!-- Telegram WebApp -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -12,72 +12,325 @@
   <script src="https://api-maps.yandex.ru/2.1/?apikey=41cc1bdf-35fa-4959-ae88-6493220031f0&lang=ru_RU&suggest_apikey=41cc1bdf-35fa-4959-ae88-6493220031f0" type="text/javascript"></script>
 
   <style>
-    :root { --pad:16px; --brand:#6b8f52; --muted:#e2e5ea; --shadow:0 8px 24px rgba(0,0,0,.08); }
+    :root{
+      --pad:16px;
+      --bg:#F6F1EA;               /* молочный */
+      --surface:#FFFFFF;          /* карточки */
+      --text:#121212;
+      --muted:#6B6B6B;
+      --line:rgba(0,0,0,.08);
+      --shadow:0 10px 26px rgba(0,0,0,.08);
+
+      --accent:#7A1E2C;           /* приглушённый бордо */
+      --accentSoft:rgba(122,30,44,.10);
+      --accent2:#2B2B2B;          /* графит */
+      --accent2Soft:rgba(43,43,43,.08);
+
+      --radius:18px;
+    }
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Arial,Segoe UI,Roboto,sans-serif;background:#f6f7fb;color:#111}
-    header{position:sticky;top:0;background:#fff;z-index:30;box-shadow:var(--shadow)}
-    .strip{padding:10px var(--pad);text-align:center;font-weight:700;color:#fff;
-           background:linear-gradient(90deg,#ef4444,#f97316,#f59e0b,#22c55e,#3b82f6,#8b5cf6);
-           background-size:200% 100%; animation:slide 12s linear infinite;}
-    @keyframes slide{0%{background-position:0% 0}100%{background-position:100% 0}}
-    .head{display:flex;justify-content:space-between;align-items:center;padding:8px var(--pad);}
-    .sub{font-weight:500;opacity:.9}
-    .timer{font-size:14px;color:#d32f2f;font-weight:700}
-    .wrap{max-width:1024px;margin:0 auto;padding:var(--pad)}
-    .view{display:none} .view.active{display:block}
-    .sort{display:flex;justify-content:flex-end;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
-    select,input,textarea{padding:10px;border:1px solid var(--muted);border-radius:10px;width:100%}
-    .ghost{background:#fff;border:1px solid var(--muted);color:#111;border-radius:12px;padding:10px 12px;cursor:pointer}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Лёгкая “бумажная” текстура без картинок */
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(122,30,44,.06), transparent 60%),
+        radial-gradient(900px 500px at 95% 10%, rgba(0,0,0,.05), transparent 55%),
+        radial-gradient(700px 500px at 40% 95%, rgba(122,30,44,.05), transparent 60%);
+      opacity:.9;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:30;
+      background: rgba(246,241,234,.86);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wrap{max-width:1024px;margin:0 auto;padding:var(--pad); position:relative; z-index:1;}
+    .view{display:none}
+    .view.active{display:block}
+
+    /* Верхняя “шапка-герой” */
+    .topbar{
+      padding: 14px var(--pad) 10px;
+    }
+    .brandline{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accentSoft);
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing:.2px;
+      font-size: 13px;
+    }
+    .hgroup{margin-top:10px}
+    .title{
+      margin:0;
+      font-size: 20px;
+      line-height:1.18;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin-top:6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+    .timer{
+      font-size:13px;
+      color: var(--accent);
+      font-weight: 800;
+      opacity:.95;
+      white-space:nowrap;
+      align-self:center;
+    }
+
+    /* Панель сортировки */
+    .sort{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin: 10px 0 12px;
+      flex-wrap:wrap;
+    }
+    .sortLeft{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .label{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    select,input,textarea{
+      padding:12px 12px;
+      border:1px solid var(--line);
+      border-radius: 14px;
+      width:100%;
+      background: var(--surface);
+      color: var(--text);
+      outline:none;
+      transition:.15s;
+    }
+    select:focus,input:focus,textarea:focus{
+      border-color: rgba(122,30,44,.35);
+      box-shadow: 0 0 0 3px rgba(122,30,44,.12);
+    }
+
+    .ghost{
+      background: var(--surface);
+      border:1px solid var(--line);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor:pointer;
+      font-weight:700;
+      transition:.15s;
+    }
+    .ghost:hover{transform:translateY(-1px)}
+    .ghost:active{transform:translateY(0)}
+
+    /* Сетка каталога */
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
     @media(min-width:740px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-    .card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;animation:fadeInUp .45s ease both}
-    .imgbox{position:relative;aspect-ratio:3/4;background:#eee;overflow:hidden}
-    .imgbox img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
-    .info{padding:12px}
-    .title{font-weight:600;margin:0 0 6px;line-height:1.25}
-    .price{font-size:15px;margin-bottom:10px;opacity:.9}
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{flex:1;padding:12px;border-radius:12px;border:none;background:var(--brand);color:#fff;font-weight:600;cursor:pointer}
-    .pill{padding:6px 10px;border-radius:999px;background:#f0f2f6;font-size:12px;margin-left:6px}
-    footer{text-align:center;color:#777;padding:40px 0}
+
+    .card{
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      animation:fadeInUp .45s ease both;
+    }
     @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-    .checkout-card{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:16px}
-    .row{display:flex;justify-content:space-between;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
-    .field{flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-    .note{font-size:12px;color:#666}
-    .muted{color:#666;font-size:14px}
-    .total{font-weight:700;font-size:18px}
+    .imgbox{
+      position:relative;
+      aspect-ratio: 3/4;
+      background:#eee;
+      overflow:hidden;
+    }
+    .imgbox img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center top;
+      display:block;
+      transform: scale(1.01);
+    }
+
+    /* Бейдж на фото */
+    .badge{
+      position:absolute;
+      left:12px;
+      top:12px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,.06);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .info{padding: 12px 12px 14px;}
+    .pTitle{
+      font-weight: 750;
+      margin: 0 0 6px;
+      line-height: 1.25;
+      letter-spacing:.1px;
+    }
+    .price{
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: rgba(0,0,0,.78);
+      font-weight: 650;
+    }
+
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{
+      flex:1;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: none;
+      background: var(--accent2);
+      color:#fff;
+      font-weight: 800;
+      cursor:pointer;
+      transition:.15s;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:scale(.98)}
+    .pill{
+      padding:6px 10px;
+      border-radius:999px;
+      background: var(--accent2Soft);
+      font-size: 12px;
+      margin-left: 8px;
+      color: rgba(0,0,0,.75);
+      font-weight: 800;
+    }
+
+    /* Checkout */
+    .checkout-card{
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .field{
+      flex:1;
+      min-width: 200px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-bottom: 12px;
+    }
+    .note{font-size:12px;color:var(--muted)}
+    .muted{color:var(--muted);font-size:14px}
+    .total{font-weight:900;font-size:16px}
     .qtyline{display:flex;gap:8px;align-items:center}
-    .qbtn{width:28px;height:28px;border-radius:8px;border:1px solid var(--muted);background:#fff;cursor:pointer}
-    .count{width:24px;text-align:center;display:inline-block}
+    .qbtn{
+      width:30px;height:30px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background: var(--surface);
+      cursor:pointer;
+      font-weight:900;
+    }
+    .count{width:24px;text-align:center;display:inline-block;font-weight:800}
     .hidden{display:none}
 
     /* Крупнее «Способ получения» и «Точка самовывоза» */
-    #deliveryWrap label, #pickupWrap label{ font-size:18px; font-weight:700; line-height:1.3; }
+    #deliveryWrap label, #pickupWrap label{ font-size:16px; font-weight:900; line-height:1.25; }
     #deliveryMethod, #pickupPoint{
-      font-size:18px; padding:14px 16px; min-height:48px; border-radius:12px;
-    }
-    #deliveryMethod:focus, #pickupPoint:focus{
-      outline:none; box-shadow:0 0 0 3px rgba(107,143,82,.2); border-color:#6b8f52;
+      font-size:16px; padding:14px 16px; min-height:48px; border-radius:14px;
     }
 
     /* FAB корзина */
     #fabCart{
       position: fixed; right: 16px; bottom: 16px; z-index: 1000;
-      display: none; align-items: center; padding: 12px 16px;
-      border: none; border-radius: 999px; background: var(--brand); color: #fff;
-      font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,.15); cursor: pointer; font-size: 14px;
+      display: none; align-items: center; gap:10px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+      background: var(--accent2);
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 0 14px 34px rgba(0,0,0,.18);
+      cursor: pointer;
+      font-size: 14px;
     }
-    #fabCart .sep{opacity:.7;margin:0 8px;}
+    #fabCart .sep{opacity:.6}
+    #fabCart:active{transform:scale(.98)}
+
+    footer{
+      text-align:center;
+      color: rgba(0,0,0,.55);
+      padding: 30px 0 44px;
+      font-weight: 650;
+    }
+    .smallcaps{letter-spacing:.25px; text-transform:none}
   </style>
 </head>
+
 <body>
   <header>
-    <div class="strip">Коллекция к 1 сентября</div>
-    <div class="head">
-      <div class="sub">Дарить цветы — просто 🌸</div>
-      <div id="timer" class="timer"></div>
+    <div class="topbar">
+      <div class="brandline">
+        <div class="kicker">Коллекция • 14 февраля</div>
+        <div id="timer" class="timer"></div>
+      </div>
+
+      <div class="hgroup">
+        <h1 class="title">Букеты, которые выглядят “дорого” — без перебора</h1>
+        <div class="sub">Дарить цветы просто. Доставка по Тюмени • 08:30–21:00</div>
+      </div>
     </div>
   </header>
 
@@ -85,14 +338,17 @@
     <!-- CATALOG -->
     <section id="view-catalog" class="view active">
       <div class="sort">
-        <label for="sortSel">Сортировка:</label>
-        <select id="sortSel">
-          <option value="default">по умолчанию</option>
-          <option value="asc">цена ↑</option>
-          <option value="desc">цена ↓</option>
-        </select>
-        <button id="goCheckout" class="ghost">Перейти в корзину</button>
+        <div class="sortLeft">
+          <span class="label">Сортировка:</span>
+          <select id="sortSel" style="width:220px">
+            <option value="default">по умолчанию</option>
+            <option value="asc">цена ↑</option>
+            <option value="desc">цена ↓</option>
+          </select>
+        </div>
+        <button id="goCheckout" class="ghost">Корзина</button>
       </div>
+
       <div id="grid" class="grid"></div>
     </section>
 
@@ -154,7 +410,10 @@
           </div>
         </div>
 
-        <div class="field"><label>Комментарий</label><textarea id="comment" rows="3" placeholder="Открытка, домофон, пожелания..."></textarea></div>
+        <div class="field">
+          <label>Комментарий</label>
+          <textarea id="comment" rows="3" placeholder="Открытка, домофон, пожелания..."></textarea>
+        </div>
 
         <div class="row">
           <div class="total">
@@ -168,17 +427,17 @@
       </div>
     </section>
 
-    <footer>🕘 Пн–Вс 08:30–21:00 • 🛵 Доставка по Тюмени</footer>
+    <footer class="smallcaps">🕘 Пн–Вс 08:30–21:00 • 🛵 Доставка по Тюмени</footer>
   </div>
 
   <!-- FAB корзины -->
   <button id="fabCart" aria-label="Открыть корзину">
-    🛒 <span id="fabCount">0</span><span class="sep">·</span><span id="fabTotal">0 ₽</span>
+    🛒 <span id="fabCount">0</span> <span class="sep">•</span> <span id="fabTotal">0 ₽</span>
   </button>
 
 <script>
 /* ====== Константы ====== */
-const DELIVERY = { byZone: { city: 350, suburb: 350, far: 500 }, freeFrom: 4000, defaultZone: 'city' }; // было 200 → стало 350
+const DELIVERY = { byZone: { city: 350, suburb: 350, far: 500 }, freeFrom: 4000, defaultZone: 'city' };
 const SLOT_WINDOWS = {
   delivery: { startMin: 9*60+30, endMin: 21*60+30 }, // 09:30–21:30
   pickup:   { startMin: 8*60+30, endMin: 21*60    }  // 08:30–21:00
@@ -192,6 +451,14 @@ const tg = window.Telegram?.WebApp; if (tg) tg.expand();
 const cart = JSON.parse(sessionStorage.getItem('cart')||'{}');
 function save(){ sessionStorage.setItem('cart', JSON.stringify(cart)); }
 function formatPrice(n){ return n.toLocaleString('ru-RU') + ' ₽'; }
+
+/* ====== Таймер (если нужно) ====== */
+/* Если у тебя где-то был таймер — оставляю место.
+   Сейчас просто скрываем пустую строку, если не заполняется. */
+(function(){
+  const t = document.getElementById('timer');
+  if (t && !t.textContent) t.style.opacity = .0;
+})();
 
 /* ====== Яндекс: проверка адреса ====== */
 let addressValid = false;
@@ -235,7 +502,11 @@ function isPhoneValid(masked){
 function phoneDigits(masked){ return masked.replace(/\D/g,''); }
 
 /* ====== Слоты времени ====== */
-function minutesToHHMM(mins){ const h=String(Math.floor(mins/60)).padStart(2,'0'); const m=String(mins%60).padStart(2,'0'); return `${h}:${m}`; }
+function minutesToHHMM(mins){
+  const h=String(Math.floor(mins/60)).padStart(2,'0');
+  const m=String(mins%60).padStart(2,'0');
+  return `${h}:${m}`;
+}
 function generateHourSlots(dateStr, method){
   const { startMin, endMin } = SLOT_WINDOWS[method];
   const now = new Date();
@@ -247,7 +518,6 @@ function generateHourSlots(dateStr, method){
     const from = minutesToHHMM(m);
     const to   = minutesToHHMM(m+60);
     const slotStart = new Date(`${dateStr}T${from}:00`);
-    // если день в будущем — показываем все слоты; если сегодня — только >= +2 часа
     if (day > new Date(now.getFullYear(), now.getMonth(), now.getDate()) || slotStart >= minStartTs){
       slots.push({value: from, label: `${from}–${to}`});
     }
@@ -275,17 +545,14 @@ function ensureDateHasSlots(method){
 
 /* ====== Инициализация ====== */
 function init(){
-  // кнопки
   document.getElementById('goCheckout').addEventListener('click', e=>{ e.preventDefault(); showCheckout(); });
   document.getElementById('backToCatalog').onclick = showCatalog;
   document.getElementById('sendOrder').onclick = sendOrder;
   document.getElementById('sortSel').addEventListener('change', renderCatalog);
   document.getElementById('fabCart').addEventListener('click', showCheckout);
 
-  // Telegram MainButton → открыть корзину
   if (tg) tg.onEvent('mainButtonClicked', showCheckout);
 
-  // чекбокс «получатель = заказчик»
   document.getElementById('samePerson').addEventListener('change', e=>{
     const hide = e.target.checked;
     document.getElementById('recipientFields').style.display = hide ? 'none' : 'block';
@@ -295,7 +562,6 @@ function init(){
     }
   });
 
-  // Яндекс-подсказки
   if (window.ymaps) {
     ymaps.ready(()=>{
       const suggest = new ymaps.SuggestView('address');
@@ -308,11 +574,9 @@ function init(){
   }
   document.getElementById('address').addEventListener('input', ()=>{ addressValid=false; });
 
-  // маска телефонов
   applyPhoneMask(document.getElementById('customerPhone'));
   applyPhoneMask(document.getElementById('recipientPhone'));
 
-  // автосохранение заказчика
   const LS_KEY = 'simpetyumen_customer';
   const saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
   if (saved.name)  document.getElementById('customerName').value  = saved.name;
@@ -326,7 +590,6 @@ function init(){
     });
   });
 
-  // переключение способа → показать/скрыть адрес и пересчитать слоты
   const methodSel = document.getElementById('deliveryMethod');
   const addrWrap  = document.getElementById('addrWrap');
   methodSel.addEventListener('change', ()=>{
@@ -336,13 +599,12 @@ function init(){
     renderCheckout();
   });
 
-  // изменение даты → пересчитать слоты
   document.getElementById('date').addEventListener('change', ()=>{
     ensureDateHasSlots(methodSel.value);
   });
 
-  // дефолты и первичная отрисовка
-  const today = new Date(); document.getElementById('date').value = today.toISOString().slice(0,10);
+  const today = new Date();
+  document.getElementById('date').value = today.toISOString().slice(0,10);
   ensureDateHasSlots(methodSel.value);
 
   renderCatalog();
@@ -369,11 +631,16 @@ function renderCatalog(){
     const el = document.createElement('div');
     el.className = 'card';
     el.innerHTML = `
-      <div class="imgbox"><img src="./images/${p.img}" alt="" loading="lazy"></div>
+      <div class="imgbox">
+        <img src="./images/${p.img}" alt="" loading="lazy">
+        <div class="badge">14 февраля</div>
+      </div>
       <div class="info">
-        <div class="title">${p.title}</div>
+        <div class="pTitle">${p.title}</div>
         <div class="price">${formatPrice(Number(p.price.toString().replace(/\D/g,'')))}</div>
-        <div class="controls"><button class="btn add" data-id="${p.id}">В корзину ${qty>0?`<span class="pill">${qty}</span>`:''}</button></div>
+        <div class="controls">
+          <button class="btn add" data-id="${p.id}">В корзину ${qty>0?`<span class="pill">${qty}</span>`:''}</button>
+        </div>
       </div>`;
     el.querySelector('.add').onclick = e=>{
       const id=e.currentTarget.dataset.id;
@@ -464,7 +731,6 @@ function showCatalog(){
   updateCartUI();
 }
 
-// Обновление FAB + Telegram MainButton
 function updateCartUI(){
   const payload = buildPayload();
   const items = payload.items.reduce((s,i)=>s+i.qty,0);
@@ -508,7 +774,7 @@ async function sendOrder(){
     address: document.getElementById('address').value.trim(),
     date: document.getElementById('date').value,
     time: document.getElementById('timeSlot').selectedOptions[0]?.textContent || '',
-    timeStart: document.getElementById('timeSlot').value || '', // начало интервала (HH:MM)
+    timeStart: document.getElementById('timeSlot').value || '',
     comment: document.getElementById('comment').value.trim(),
     pickupPoint: document.getElementById('pickupPoint').value
   };
@@ -535,7 +801,6 @@ async function sendOrder(){
     if(!addressValid) return alert("Адрес должен быть в пределах г. Тюмень или Тюменского района");
   }
 
-  // Дополнительная проверка слота: начало слота минимум через 2 часа от текущего
   const now = new Date();
   const minStartTs = new Date(now.getTime()+2*60*60*1000);
   const slotStart = new Date(`${form.date}T${form.timeStart}:00`);
@@ -549,7 +814,6 @@ async function sendOrder(){
     qty:i.qty
   }));
 
-  // ВАЖНО: берём Telegram-пользователя для личного подтверждения
   const tgUser = tg?.initDataUnsafe?.user || null;
 
   const body={
@@ -559,14 +823,14 @@ async function sendOrder(){
     pickupPoint:form.pickupPoint,
     address:form.address,
     date:form.date,
-    time:form.time,          // строка вида "HH:MM–HH:MM"
+    time:form.time,
     comment:form.comment,
     items,
     source:'Мини-приложение',
     total:payload.total,
     fee,
     timePlaced:new Date().toISOString(),
-    tgUser // ← для подтверждения в ЛС
+    tgUser
   };
 
   const resp=await fetch('/api/sendOrder',{
