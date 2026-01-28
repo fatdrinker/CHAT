@@ -25,6 +25,11 @@
       --accentSoft:rgba(122,30,44,.10);
       --accent2:#2B2B2B;          /* графит */
       --accent2Soft:rgba(43,43,43,.08);
+
+      --pink:#D65B7B;
+      --peach:#F2B2A3;
+      --lilac:#B8A6FF;
+      --mint:#8ED3C7;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -365,9 +370,10 @@ header{
   height:180px;
   pointer-events:none;
   background:
-    radial-gradient(220px 160px at 8% 35%, rgba(207,95,112,.26), transparent 65%),
-    radial-gradient(260px 170px at 92% 25%, rgba(122,30,44,.18), transparent 70%),
-    radial-gradient(380px 240px at 52% 0%, rgba(255,255,255,.55), transparent 60%);
+    radial-gradient(240px 170px at 10% 40%, rgba(214,91,123,.20), transparent 66%),
+    radial-gradient(280px 190px at 88% 28%, rgba(184,166,255,.16), transparent 70%),
+    radial-gradient(360px 240px at 55% 0%, rgba(242,178,163,.18), transparent 62%),
+    radial-gradient(520px 280px at 60% 95%, rgba(142,211,199,.10), transparent 70%);
   filter: blur(0px);
   opacity:1;
 }
@@ -389,6 +395,57 @@ header{
   opacity:.75;
 }
 
+
+
+/* Brand logo in header (right) */
+.hero-logo{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  padding:8px 10px;
+  border-radius:16px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(0,0,0,.06);
+  backdrop-filter: blur(10px);
+}
+.hero-logo img{
+  height:34px;
+  width:auto;
+  display:block;
+}
+.logo-text{
+  font-weight: 950;
+  letter-spacing: .8px;
+  color: rgba(0,0,0,.78);
+  font-size: 14px;
+}
+
+/* Extra header stickers (subtle, colorful) */
+.header-stickers{
+  position:absolute;
+  right:18px;
+  top:86px;
+  width:280px;
+  height:140px;
+  pointer-events:none;
+  opacity:.9;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position: top right;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='380' height='190' viewBox='0 0 380 190'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='4'%3E%3Cpath d='M290 42c10-14 32-14 42 0 10 14-2 34-21 46-19-12-31-32-21-46Z' stroke='%23D65B7B' opacity='.75'/%3E%3Cpath d='M330 112c8-12 26-12 34 0 8 12-1 28-17 38-16-10-25-26-17-38Z' stroke='%23B8A6FF' opacity='.65'/%3E%3Cpath d='M250 120c6-10 20-10 26 0 6 10-1 22-13 30-12-8-19-20-13-30Z' stroke='%238ED3C7' opacity='.6'/%3E%3Cpath d='M78 132c18-26 52-34 78-18 22 14 30 42 18 66-12 24-41 35-68 26' stroke='%23F2B2A3' opacity='.55'/%3E%3Cpath d='M86 124c-18 8-32 24-36 44' stroke='%237A1E2C' opacity='.35'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Make the right illustration bigger + softer */
+.hero-illustration{
+  opacity:.42;
+  width:320px;
+  height:260px;
+  top:-26px;
+  right:-8px;
+  mix-blend-mode:multiply;
+}
 
 /* Right-side header illustration (line-art flower) */
 .hero-illustration{
@@ -451,9 +508,15 @@ header{
     <div class="topbar">
       <div class="hero-decor" aria-hidden="true"></div>
       <div class="hero-illustration" aria-hidden="true"></div>
+      <div class="header-stickers" aria-hidden="true"></div>
       <div class="brandline">
         <div class="kicker">Коллекция • 14 февраля</div>
         <div id="timer" class="timer"></div>
+      
+        <div class="hero-logo" aria-label="SIMPLE">
+          <img id="brandLogo" src="./images/logo.png" alt="SIMPLE" onerror="this.style.display='none';document.getElementById('logoText').style.display='block';">
+          <div id="logoText" class="logo-text" style="display:none;">SIMPLE</div>
+        </div>
       </div>
 
       <div class="hgroup">
