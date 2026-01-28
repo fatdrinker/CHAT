@@ -25,8 +25,6 @@
       --accentSoft:rgba(122,30,44,.10);
       --accent2:#2B2B2B;          /* графит */
       --accent2Soft:rgba(43,43,43,.08);
-
-      --radius:18px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -39,17 +37,18 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Лёгкая “бумажная” текстура без картинок */
+    /* Лёгкая “праздничная” текстура без картинок (чуть больше 14 февраля) */
     body:before{
       content:"";
       position:fixed;
-      inset:0;
+      inset:-60px;
       pointer-events:none;
       background:
-        radial-gradient(1200px 600px at 10% 0%, rgba(122,30,44,.06), transparent 60%),
-        radial-gradient(900px 500px at 95% 10%, rgba(0,0,0,.05), transparent 55%),
-        radial-gradient(700px 500px at 40% 95%, rgba(122,30,44,.05), transparent 60%);
-      opacity:.9;
+        radial-gradient(900px 520px at 12% 0%, rgba(207,95,112,.16), transparent 60%),
+        radial-gradient(820px 520px at 92% 8%, rgba(122,30,44,.12), transparent 60%),
+        radial-gradient(900px 700px at 45% 100%, rgba(255,255,255,.55), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,0));
+      opacity:1;
     }
 
     header{
@@ -65,10 +64,8 @@
     .view{display:none}
     .view.active{display:block}
 
-    /* Верхняя “шапка-герой” */
-    .topbar{
-      padding: 14px var(--pad) 10px;
-    }
+    /* Верхняя шапка */
+    .topbar{ padding: 14px var(--pad) 10px; }
     .brandline{
       display:flex;
       align-items:flex-start;
@@ -76,22 +73,26 @@
       gap:12px;
       flex-wrap:wrap;
     }
+
+    /* Праздничнее, но не “кислота” */
     .kicker{
       display:inline-flex;
       align-items:center;
       gap:8px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: var(--accentSoft);
-      color: var(--accent);
-      font-weight: 700;
+      color:#fff;
+      font-weight: 800;
       letter-spacing:.2px;
       font-size: 13px;
+      background: linear-gradient(90deg, rgba(122,30,44,.95), rgba(207,95,112,.95));
+      box-shadow: 0 10px 24px rgba(122,30,44,.18);
     }
+
     .hgroup{margin-top:10px}
     .title{
       margin:0;
-      font-size: 20px;
+      font-size: 22px;
       line-height:1.18;
       letter-spacing:.2px;
     }
@@ -100,12 +101,12 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.35;
-      font-weight: 500;
+      font-weight: 600;
     }
     .timer{
       font-size:13px;
       color: var(--accent);
-      font-weight: 800;
+      font-weight: 900;
       opacity:.95;
       white-space:nowrap;
       align-self:center;
@@ -129,7 +130,7 @@
     .label{
       color:var(--muted);
       font-size:13px;
-      font-weight:600;
+      font-weight:700;
     }
 
     select,input,textarea{
@@ -154,7 +155,7 @@
       border-radius: 14px;
       padding: 12px 14px;
       cursor:pointer;
-      font-weight:700;
+      font-weight:800;
       transition:.15s;
     }
     .ghost:hover{transform:translateY(-1px)}
@@ -205,13 +206,13 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(0,0,0,.06);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--accent);
     }
 
     .info{padding: 12px 12px 14px;}
     .pTitle{
-      font-weight: 750;
+      font-weight: 800;
       margin: 0 0 6px;
       line-height: 1.25;
       letter-spacing:.1px;
@@ -220,7 +221,7 @@
       font-size: 14px;
       margin-bottom: 10px;
       color: rgba(0,0,0,.78);
-      font-weight: 650;
+      font-weight: 750;
     }
 
     .controls{display:flex;gap:8px;align-items:center}
@@ -229,9 +230,9 @@
       padding: 13px 14px;
       border-radius: 14px;
       border: none;
-      background: var(--accent2);
+      background: linear-gradient(180deg, rgba(122,30,44,1), rgba(92,14,24,1));
       color:#fff;
-      font-weight: 800;
+      font-weight: 900;
       cursor:pointer;
       transition:.15s;
     }
@@ -240,11 +241,12 @@
     .pill{
       padding:6px 10px;
       border-radius:999px;
-      background: var(--accent2Soft);
+      background: rgba(255,255,255,.18);
       font-size: 12px;
       margin-left: 8px;
-      color: rgba(0,0,0,.75);
-      font-weight: 800;
+      color: #fff;
+      font-weight: 900;
+      border: 1px solid rgba(255,255,255,.18);
     }
 
     /* Checkout */
@@ -283,7 +285,7 @@
       cursor:pointer;
       font-weight:900;
     }
-    .count{width:24px;text-align:center;display:inline-block;font-weight:800}
+    .count{width:24px;text-align:center;display:inline-block;font-weight:900}
     .hidden{display:none}
 
     /* Крупнее «Способ получения» и «Точка самовывоза» */
@@ -313,9 +315,8 @@
       text-align:center;
       color: rgba(0,0,0,.55);
       padding: 30px 0 44px;
-      font-weight: 650;
+      font-weight: 700;
     }
-    .smallcaps{letter-spacing:.25px; text-transform:none}
   </style>
 </head>
 
@@ -328,7 +329,7 @@
       </div>
 
       <div class="hgroup">
-        <h1 class="title">Букеты, которые выглядят “дорого” — без перебора</h1>
+        <h1 class="title">Комплимент, который запомнят</h1>
         <div class="sub">Дарить цветы просто. Доставка по Тюмени • 08:30–21:00</div>
       </div>
     </div>
@@ -427,7 +428,7 @@
       </div>
     </section>
 
-    <footer class="smallcaps">🕘 Пн–Вс 08:30–21:00 • 🛵 Доставка по Тюмени</footer>
+    <footer>🕘 Пн–Вс 08:30–21:00 • 🛵 Доставка по Тюмени</footer>
   </div>
 
   <!-- FAB корзины -->
@@ -452,9 +453,7 @@ const cart = JSON.parse(sessionStorage.getItem('cart')||'{}');
 function save(){ sessionStorage.setItem('cart', JSON.stringify(cart)); }
 function formatPrice(n){ return n.toLocaleString('ru-RU') + ' ₽'; }
 
-/* ====== Таймер (если нужно) ====== */
-/* Если у тебя где-то был таймер — оставляю место.
-   Сейчас просто скрываем пустую строку, если не заполняется. */
+/* ====== Таймер (если не заполняется — просто прячем) ====== */
 (function(){
   const t = document.getElementById('timer');
   if (t && !t.textContent) t.style.opacity = .0;
