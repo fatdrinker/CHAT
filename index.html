@@ -882,6 +882,7 @@ function renderCatalog(){
       </div>
       <div class="info">
       <div class="pTitle">${p.title}</div>
+      
       ${description ? `<div class="Description">${description}</div>` : ``}
 
       <div class="price">${formatPrice(Number(p.price.toString().replace(/\D/g,'')))}</div>
