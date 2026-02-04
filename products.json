@@ -2,7 +2,7 @@
     {
     "id": "a1",
     "title": "Та самая кустовая пионовидная",
-    "description": размер М (15шт),
+    "description": "размер М (15шт)",
     "price": 8200,
     "img": "vday1.jpg",
     "badge": "top"
@@ -16,7 +16,7 @@
   {
     "id": "a2",
     "title": "Страстно красиво",
-    "description": размер М (15шт),
+    "description": "размер М (15шт)",
     "price": 6350,
     "img": "vday2.jpeg",
     "badge": "popular"
