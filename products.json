@@ -5,6 +5,7 @@
     "description": "размер М (15шт)",
     "price": 8200,
     "img": "vday1.jpg",
+    "badge": "top"
   },
   {
     "id": "a5",
@@ -27,7 +28,6 @@
     "description": "размер S (9шт)"
     "price": 3950,
     "img": "vday4.jpeg"
-    "badge": "top"
   },
   {
     "id": "a5",
