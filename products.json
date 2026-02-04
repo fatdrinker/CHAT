@@ -5,7 +5,6 @@
     "description": "размер М (15шт)",
     "price": 8200,
     "img": "vday1.jpg",
-    "badge": "top"
   },
   {
     "id": "a5",
@@ -27,6 +26,7 @@
     "title": "Букет с гортензией и эустомой",
     "price": 1800,
     "img": "vday4.jpeg"
+    "badge": "top"
   },
   {
     "id": "a5",
