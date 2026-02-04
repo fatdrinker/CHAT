@@ -883,8 +883,7 @@ function renderCatalog(){
       <div class="info">
       <div class="pTitle">${p.title}</div>
       
-      ${p.description ? `<div class="pDescription">${p.description}</div>` : ``}
-
+       <div class="pDescription">${p.description}</div> 
       <div class="price">${formatPrice(Number(p.price.toString().replace(/\D/g,'')))}</div>
         <div class="controls">
           <button class="btn add" data-id="${p.id}">В корзину ${qty>0?`<span class="pill">${qty}</span>`:''}</button>
