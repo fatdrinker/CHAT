@@ -14,7 +14,13 @@
     "price": 3950,
     "img": "vday4.jpeg"
   },    
-  
+  {
+    "id": "a14",
+    "title": "Та самая кустовая пионовидная",
+    "description": "размер L (21шт)",    
+    "price": 11300,
+    "img": "vday14.jpeg"
+  },
   {
     "id": "a12",
     "title": "Та самая кустовая пионовидная",
@@ -30,13 +36,7 @@
     "img": "vday2.jpeg",
     "badge": "popular"
   },
-{
-    "id": "a14",
-    "title": "Та самая кустовая",
-    "description": "размер L (21шт)",    
-    "price": 11300,
-    "img": "vday14.jpeg"
-  },
+
   {
     "id": "a6",
     "title": "Из ее вишлиста",
