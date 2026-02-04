@@ -223,7 +223,7 @@
       line-height: 1.25;
       letter-spacing:.1px;
     }
-    .Description {
+    .pDescription{
       font-size: 12.5px;
       font-weight: 400;          /* не жирный */
       color: var(--muted);       /* мягкий цвет */
@@ -883,7 +883,7 @@ function renderCatalog(){
       <div class="info">
       <div class="pTitle">${p.title}</div>
       
-      ${description ? `<div class="Description">${description}</div>` : ``}
+      ${p.description ? `<div class="pDescription">${p.description}</div>` : ``}
 
       <div class="price">${formatPrice(Number(p.price.toString().replace(/\D/g,'')))}</div>
         <div class="controls">
