@@ -889,19 +889,7 @@ function renderCatalog(){
           <button class="btn add" data-id="${p.id}">В корзину ${qty>0?`<span class="pill">${qty}</span>`:''}</button>
         </div>
       </div>`;
-    // 🔽 переключение фото по клику
-const imgEl = el.querySelector('img');
-
-imgEl.onclick = () => {
-  const imgs = p.imgs && p.imgs.length ? p.imgs : [p.img];
-  if (imgs.length < 2) return;
-
-  let i = Number(imgEl.dataset.i || 0);
-  i = (i + 1) % imgs.length;
-
-  imgEl.dataset.i = i;
-  imgEl.src = './images/' + imgs[i];
-};
+    
     el.querySelector('.add').onclick = e=>{
       const id=e.currentTarget.dataset.id;
       cart[id]=(cart[id]||0)+1;
