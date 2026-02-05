@@ -545,38 +545,65 @@ function minutesToHHMM(mins){
   return `${h}:${m}`;
 }
 function generateHourSlots(dateStr, method){
-  const { startMin, endMin } = SLOT_WINDOWS[method];
+  // защита, чтобы method всегда был "pickup" или "delivery"
+  method = (method === 'delivery') ? 'delivery' : 'pickup';
+
+  const win = SLOT_WINDOWS[method];
+  if (!win) return [];
+
+  const { startMin, endMin } = win;
+
   const now = new Date();
-  const minStartTs = new Date(now.getTime()+2*60*60*1000);
+  const minStartTs = new Date(now.getTime() + 2*60*60*1000); // +2 часа
   const day = new Date(dateStr + 'T00:00:00');
+
   const slots = [];
-  for (let m = startMin; m+60 <= endMin; m += 60){
+  for (let m = startMin; m + 60 <= endMin; m += 60){
     const from = minutesToHHMM(m);
     const to   = minutesToHHMM(m+60);
     const slotStart = new Date(`${dateStr}T${from}:00`);
+
+    // если не сегодня — берём все слоты; если сегодня — только через 2 часа
     if (day > new Date(now.getFullYear(), now.getMonth(), now.getDate()) || slotStart >= minStartTs){
-      slots.push({value: from, label: `${from}–${to}`});
+      slots.push({ value: from, label: `${from}–${to}` });
     }
   }
   return slots;
 }
+
 function ensureDateHasSlots(method){
+  method = (method === 'delivery') ? 'delivery' : 'pickup';
+
   const dateEl = document.getElementById('date');
   const timeEl = document.getElementById('timeSlot');
+  if (!dateEl || !timeEl) return;
+
   let d = dateEl.value;
   if (!d){
-    const today = new Date();
-    d = today.toISOString().slice(0,10);
+    d = new Date().toISOString().slice(0,10);
     dateEl.value = d;
   }
-  let slots = generateHourSlots(d, method);
-  if (slots.length===0){
-    const dt = new Date(d+'T00:00:00'); dt.setDate(dt.getDate()+1);
-    d = dt.toISOString().slice(0,10);
-    dateEl.value = d;
-    slots = generateHourSlots(d, method);
+
+  // пробуем сегодня + до 7 дней вперёд, пока не найдём слоты
+  let slots = [];
+  let probe = new Date(d + 'T00:00:00');
+
+  for (let i=0; i<7; i++){
+    const ds = probe.toISOString().slice(0,10);
+    slots = generateHourSlots(ds, method);
+    if (slots.length) {
+      dateEl.value = ds;
+      break;
+    }
+    probe.setDate(probe.getDate() + 1);
   }
-  timeEl.innerHTML = slots.map(s=>`<option value="${s.value}">${s.label}</option>`).join('');
+
+  if (!slots.length){
+    timeEl.innerHTML = `<option value="">Нет доступных слотов</option>`;
+    return;
+  }
+
+  timeEl.innerHTML = slots.map(s => `<option value="${s.value}">${s.label}</option>`).join('');
 }
 
 /* ====== ДОСТАВКА (НОВАЯ ЛОГИКА) ====== */
