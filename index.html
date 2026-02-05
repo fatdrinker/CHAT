@@ -497,36 +497,6 @@ function formatPrice(n){ return n.toLocaleString('ru-RU') + ' ₽'; }
   if (t && !t.textContent) t.style.opacity = .0;
 })();
 
-/* Floating hearts generator */
-(function(){
-  const layer = document.getElementById('heartsLayer');
-  if(!layer) return;
-  const count = 48;
-  const seed = Math.floor(Math.random()*1e9);
-  function rnd(n){
-    const x = Math.sin((seed + n) * 999) * 10000;
-    return x - Math.floor(x);
-  }
-  for(let i=0;i<count;i++){
-    const s = document.createElement('span');
-    s.textContent = '❤';
-    const left = Math.floor(rnd(i)*100);
-    const size = 14 + Math.floor(rnd(i+7)*24);
-    const dur  = 14 + Math.floor(rnd(i+21)*18);
-    const delay= -Math.floor(rnd(i+99)*dur);
-    const drift= Math.floor((rnd(i+33)-0.5) * 120);
-    const cls  = rnd(i+55) > 0.7 ? 'strong' : (rnd(i+55) < 0.25 ? 'soft' : '');
-    s.className = cls;
-    s.style.left = left + '%';
-    s.style.fontSize = size + 'px';
-    s.style.animationDuration = dur + 's';
-    s.style.animationDelay = delay + 's';
-    s.style.setProperty('--x', drift + 'px');
-    s.style.setProperty('--o', (cls==='strong'?0.20:(cls==='soft'?0.10:0.14)));
-    layer.appendChild(s);
-  }
-})();
-
 /* Яндекс: проверка адреса */
 let addressValid = false;
 let lastGeocodedAddress = "";
