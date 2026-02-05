@@ -351,36 +351,6 @@
       padding: 30px 0 44px;
       font-weight: 700;
     }
-
-    /* Floating hearts */
-    .hearts{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:0;
-      overflow:hidden;
-    }
-    .hearts span{
-      position:absolute;
-      bottom:-50px;
-      font-size:20px;
-      opacity:.14;
-      color:#7A1E2C;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.08));
-      animation-name: floatUp;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      will-change: transform, opacity;
-    }
-    .hearts span.soft{ opacity:.10; }
-    .hearts span.strong{ opacity:.20; }
-
-    @keyframes floatUp{
-      from{ transform:translateY(0) translateX(0); opacity:0 }
-      8%{opacity: var(--o, .16)}
-      55%{opacity: var(--o, .16)}
-      to{ transform:translateY(-130vh) translateX(var(--x, 0px)); opacity:0 }
-    }
   </style>
 </head>
 
